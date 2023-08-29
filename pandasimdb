@@ -1,0 +1,114 @@
+import pandas as pd
+
+# Assuming you have the IMDb dataset as a CSV file named "imdb_dataset.csv"
+# Change the file path accordingly
+
+# Task 1: Load the IMDb dataset into a pandas DataFrame
+imdb_df = pd.read_csv("imdb_dataset.csv")
+
+# Task 2: Display the first 5 rows of the dataset
+print(imdb_df.head())
+
+# Task 3: Overview of column data types and missing values
+print(imdb_df.info())
+
+# Task 4: Identify columns with missing values and handle them
+missing_values = imdb_df.isnull().sum()
+print("Columns with missing values:")
+print(missing_values)
+
+# For handling missing values, you can use methods like filling with mean/median for numeric columns,
+# filling with mode for categorical columns, or dropping columns with excessive missing values.
+
+# Task 5: Essential columns for analyzing movie ratings and dropping the rest
+essential_columns = ['movie_title', 'genres', 'imdb_score', 'duration']
+imdb_df = imdb_df[essential_columns]
+
+# Task 6: Calculate average runtime of movies
+average_runtime = imdb_df['duration'].mean()
+print("Average Runtime:", average_runtime)
+
+# Task 7: Count the number of movies in each genre and present visually
+genre_counts = imdb_df['genres'].str.split('|', expand=True).stack().value_counts()
+genre_counts.plot(kind='bar', title='Number of Movies by Genre')
+
+# Task 8: Top 5 directors with the most movies
+top_directors = imdb_df['director_name'].value_counts().head(5)
+print("Top 5 Directors:")
+print(top_directors)
+
+# Task 9: Line plot of number of movies released each year
+imdb_df['title_year'].value_counts().sort_index().plot(kind='line', title='Number of Movies Released Each Year')
+
+# Task 10: Histogram of movie runtimes distribution
+imdb_df['duration'].plot(kind='hist', bins=20, title='Movie Runtimes Distribution')
+
+# Task 11: Histogram of movie ratings distribution
+imdb_df['imdb_score'].plot(kind='hist', bins=10, title='Movie Ratings Distribution')
+
+# Task 12: Calculate correlation coefficient between movie ratings and runtimes
+correlation = imdb_df['imdb_score'].corr(imdb_df['duration'])
+print("Correlation between Ratings and Runtimes:", correlation)
+
+# Task 13: 3 most frequent actors
+top_actors = imdb_df['actor_1_name'].append(imdb_df['actor_2_name']).append(imdb_df['actor_3_name']).value_counts().head(3)
+print("Top 3 Actors:")
+print(top_actors)
+
+# Task 14: Relationship between box office earnings and movie ratings
+# Assuming you have a column 'gross' for box office earnings
+imdb_df.plot(kind='scatter', x='gross', y='imdb_score', title='Box Office Earnings vs. Ratings')
+
+# Task 15: List of languages and their frequency count
+languages = imdb_df['language'].str.split('|', expand=True).stack().value_counts()
+print("Languages and their Frequency Count:")
+print(languages)
+
+# Task 16: Histogram of movie budgets distribution
+imdb_df['budget'].plot(kind='hist', bins=20, title='Movie Budgets Distribution')
+
+# Task 17: Production company with the highest number of movies
+top_production_company = imdb_df['production_company'].value_counts().idxmax()
+print("Top Production Company:", top_production_company)
+
+# Task 18: Bar plot of movies across different countries
+country_counts = imdb_df['country'].value_counts()
+country_counts.plot(kind='bar', title='Movies Across Different Countries')
+
+# Task 19: Word cloud visualization using movie titles or keywords
+# You'll need a word cloud library like WordCloud to do this.
+
+# Task 20: Plot average movie ratings over the years
+imdb_df.groupby('title_year')['imdb_score'].mean().plot(kind='line', title='Average Movie Ratings Over the Years')
+
+# Task 21: Trends in average ratings over the years
+# Analyze whether ratings have generally increased, decreased, or remained stable over time.
+
+# Task 22: Most common director-actor pairs
+director_actor_pairs = imdb_df.groupby(['director_name', 'actor_1_name'])['movie_title'].count().sort_values(ascending=False).head(1)
+print("Most Common Director-Actor Pair:")
+print(director_actor_pairs)
+
+# Task 23: Analyze movie runtime changes over the years
+# Compare average runtimes in different decades to identify trends.
+
+# Task 24: Trends of different genres over the years
+# Analyze whether certain genres have become more or less popular over time.
+
+# Task 25: Extract and analyze popular keywords from movie descriptions
+# You'll need Natural Language Processing techniques and libraries like NLTK or spaCy for this.
+
+# Task 26: Bar plots to compare rating, revenue, and budget metrics
+# Compare how different movies fare in terms of these metrics.
+
+# Task 27: Investigate movie budgets and earnings relationship
+# Analyze whether higher budgets correlate with higher earnings.
+
+# Task 28: Relationship between number of votes and movie ratings
+imdb_df.plot(kind='scatter', x='num_voted_users', y='imdb_score', title='Number of Votes vs. Ratings')
+
+# Task 29: Distribution of ratings for different genres
+# Create histograms for ratings within each genre to check for variations.
+
+# Task 30: Identify and handle outliers in movie runtime data
+# Visualize the distribution and use statistical methods to identify and handle outliers.
